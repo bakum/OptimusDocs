@@ -1,0 +1,36 @@
+{
+    "direct": {
+        "apiName": "API",
+        "apiUrl": "/api",
+        "crudUrl": "/crud",
+        "classRouteUrl": "/api",
+        "classPath": "api",
+        "portHttp": 3000,
+        "portHttps": 3001
+    },
+
+    "deals": {
+        "dealsUrl": "https://deals.dealssign.com",
+        "orgCode":"41161689"
+    },
+
+    "mongodb":{
+        "url_dev" : "mongodb://localhost:27017/optidocs_dev",
+        "db_name_dev" : "optidocs_dev",
+        "url" : "mongodb://localhost:27017/optidocs",
+        "db_name" : "optidocs",
+        "main_user" : "admin",
+        "default_email" : "def@email.com",
+        "default_password" : "masterkey"
+    },
+    "session": {
+        "secret": "62P59nE68F38q0q2wvHho58oR38aY7U9",
+        "duration": 86400,
+        "readonly": false
+    },
+
+    "client": {
+        "path": "../client",
+        "clientName":"OptimusDocs"
+    }
+}
