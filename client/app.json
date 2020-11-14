@@ -65,11 +65,11 @@
     "sass": {
         /**
          * The root namespace to use when mapping *.scss files to classes in the
-         * sass/src and sass/var directories. For example, "BakumNet.view.Foo" would
-         * map to "sass/src/view/Foo.scss". If we changed this to "BakumNet.view" then
+         * sass/src and sass/var directories. For example, "OptimusDocs.view.Foo" would
+         * map to "sass/src/view/Foo.scss". If we changed this to "OptimusDocs.view" then
          * it would map to "sass/src/Foo.scss". To style classes outside the app's
          * root namespace, change this to "". Doing so would change the mapping of
-         * "BakumNet.view.Foo" to "sass/src/BakumNet/view/Foo.scss".
+         * "OptimusDocs.view.Foo" to "sass/src/OptimusDocs/view/Foo.scss".
          */
         "namespace": "OptimusDocs",
 
