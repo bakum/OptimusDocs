@@ -29,5 +29,12 @@ Ext.define('OptimusDocs.view.login.LoginController', {
         // This would be the ideal location to verify the user's credentials via
         // a server-side lookup. We'll just move forward for the sake of this example.
 
+    },
+    onKey: function (field, el) {
+        if (el.getKey() == Ext.EventObject.ENTER) //ENTER key performs Login
+            var myBtn = Ext.ComponentQuery.query('#login-button')[0];
+            // console.log(myBtn);
+            myBtn.fireEvent('click', myBtn);
+            // Ext.getCmp('#login-button').fireEvent('click');
     }
 });

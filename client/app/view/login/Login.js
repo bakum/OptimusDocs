@@ -9,7 +9,7 @@ Ext.define('OptimusDocs.view.login.Login', {
 
     controller: 'login',
     bodyPadding: 10,
-    title: 'Логин',
+    title: 'Авторизация',
     closable: false,
     autoShow: true,
 
@@ -19,22 +19,31 @@ Ext.define('OptimusDocs.view.login.Login', {
         items: [{
             xtype: 'textfield',
             name: 'username',
-            fieldLabel: 'Эл. адрес:',
-            allowBlank: false
+            fieldLabel: 'Логин:',
+            enableKeyEvents:true,
+            emptyText: 'login',
+            allowBlank: false,
+
         }, {
             xtype: 'textfield',
             name: 'password',
             inputType: 'password',
             fieldLabel: 'Пароль:',
-            allowBlank: false
+            enableKeyEvents:true,
+            emptyText: 'password',
+            allowBlank: false,
+            listeners: {
+                specialkey: 'onKey'
+            }
         }, {
             xtype: 'displayfield',
             hideEmptyLabel: false,
-            value: 'Введите любой непустой пароль'
+            value: 'Введите имя пользователя и пароль'
         }],
         buttons: [{
             text: 'Login',
             formBind: true,
+            itemId: 'login-button',
             listeners: {
                 click: 'onLoginClick'
             }
