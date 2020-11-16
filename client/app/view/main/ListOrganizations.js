@@ -50,11 +50,16 @@ Ext.define('OptimusDocs.view.main.ListOrganizations', {
             clicksToMoveEditor: 2,
             // useNull: false,
             autoCancel: true,
-            pluginId: 'rowediting',
+            // pluginId: 'rowediting',
             saveBtnText: 'Сохранить',
             cancelBtnText: 'Отменить',
             errorSummary: true
         })
+        // {
+        //     ptype: 'rowediting',
+        //     clicksToEdit: 2,
+        //     autoCancel: true
+        // }
     ],
 
     columns: [
