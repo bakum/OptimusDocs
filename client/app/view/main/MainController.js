@@ -19,6 +19,10 @@ Ext.define('OptimusDocs.view.main.MainController', {
         }
     },
 
+    onChangePass: function(grid, rowIndex, colIndex) {
+
+    },
+
     onLogoutClick: function () {
         // Remove the localStorage key/value
         localStorage.removeItem('OptimusDocLoggedIn');

@@ -91,7 +91,7 @@ console.log(`Client app has loaded from ${clientPath}`);
 //     next(); // make sure we go to the next routes and don't stop here
 // });
 router.use((req, res, next) => {
-    if (config.direct.apiUrl === req.baseUrl) {
+    if ((config.direct.apiUrl === req.baseUrl) && (!'/checkcredentials' === req.url)){
         if ((!req.app.locals.deals_api) && (req.app.locals.dusers)) {
             let dealsUser = req.app.locals.dusers;
             if (('nologin' === dealsUser.deals_login) || ('nopass' === dealsUser.deals_pass)) {
@@ -140,6 +140,10 @@ app.use(config.direct.apiUrl, router);
 //API CRUD
 routerCrud.get('/', crud.index);
 routerCrud.get('/users', crud.getUsers);
+routerCrud.put('/users/:id', crud.putUsers);
+
+routerCrud.get('/organizations', crud.getOrganizations);
+routerCrud.put('/organizations/:id', crud.putOrganizations);
 
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /crud
@@ -191,6 +195,19 @@ MongoClient.connect((yargs['client-environment'] === 'development') ? config.mon
                     } else {
                         console.log('Created default admin user -> ' + result.ops[0].name);
                         app.locals.dusers = result.ops[0];
+                    }
+                });
+                mydb.collection('organizations').insertOne({
+                    org_name : 'My Organization',
+                    inn : config.deals.orgCode,
+                    is_main : true
+                }, (err, result) => {
+                    if (err) {
+                        //   res.send({ 'error': 'An error has occurred' });
+                        console.log('An error has occurred while inserting the record');
+                    } else {
+                        console.log('Created default organization -> ' + result.ops[0].name);
+                        // app.locals.dusers = result.ops[0];
                     }
                 });
             }

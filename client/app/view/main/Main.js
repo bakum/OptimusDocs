@@ -41,7 +41,7 @@ Ext.define('OptimusDocs.view.main.Main', {
         iconCls: 'fa-th-list',
         items: [{
             xtype: 'button',
-            text: 'Logout',
+            text: 'Выход',
             margin: '5 5',
             handler: 'onLogoutClick'
         }]
@@ -83,18 +83,22 @@ Ext.define('OptimusDocs.view.main.Main', {
     },
 
     items: [{
-        title: 'Users',
+        title: 'Пользователи',
         iconCls: 'fa-user',
         // The following grid shares a store with the classic version's grid as well!
         items: [{
-            xtype: 'mainlist'
+            xtype: 'mainlistusers'
+            // xtype: 'mainlist'
         }]
     }, {
-        title: 'Organizations',
+        title: 'Организации',
         iconCls: 'fa-home',
-        bind: {
-            html: '{loremIpsum}'
-        }
+        // bind: {
+        //     html: '{loremIpsum}'
+        // }
+        items: [{
+            xtype: 'mainlistorganizations'
+        }]
     } /* {
         title: 'Groups',
         iconCls: 'fa-users',

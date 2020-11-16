@@ -41,7 +41,7 @@ Ext.define('OptimusDocs.view.login.Login', {
             value: 'Введите имя пользователя и пароль'
         }],
         buttons: [{
-            text: 'Login',
+            text: 'Войти',
             formBind: true,
             itemId: 'login-button',
             listeners: {
