@@ -1,15 +1,18 @@
 Ext.define('OptimusDocs.store.Organizations', {
     extend: 'Ext.data.Store',
 
-    // requires: [
-    //     'OptimusDocs.model.Organizations'
-    // ],
+    requires: [
+        'Ext.data.proxy.Rest',
+        'Ext.window.Toast'
+    ],
 
     alias: 'store.organizations',
     // model: 'model.organizations',
     autoLoad: true,
     autoSync: false,
     autoDestroy: true,
+    // idProperty: '_id',
+    // idParam: '_id',
     // pageSize: 15,
 
     fields: [
@@ -58,7 +61,6 @@ Ext.define('OptimusDocs.store.Organizations', {
         type: 'rest',
         url: '/crud/organizations',
         appendId: true,
-        idParam: '_id',
         reader: {
             type: 'json',
             rootProperty: 'items'
@@ -67,6 +69,34 @@ Ext.define('OptimusDocs.store.Organizations', {
             type: 'json',
             encode: true,
             rootProperty: 'items'
+        }
+    },
+    listeners: {
+        write: function (store, operation) {
+            var record = operation.getRecords()[0],
+                name = Ext.String.capitalize(operation.action),
+                verb;
+
+
+            if (name == 'Destroy') {
+                //record = operation.records[0];
+                verb = 'Удалена';
+            } else if (name == 'Create') {
+                store.reload();
+                verb = 'Добавлена';
+                //record = operation.records[0];
+
+            } else {
+                verb = 'Отредактирована';
+            };
+            var msg = Ext.String.format("{0} запись: {1}", verb, record.getId());
+            Ext.toast({
+                // title: name,
+                html: msg,
+                align: 't',
+                bodyPadding: 10
+            });
+
         }
     }
 });
