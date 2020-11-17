@@ -117,9 +117,11 @@ router.get('/', api.index);
 
 router.get('/getorganization/:org_code', api.getOrganization);
 router.get('/getorganization', api.getOrganization);
+router.post('/getorganization', api.getOrganization);
 
 router.get('/getdealslist/:org_code', api.getDealsList);
 router.get('/getdealslist', api.getDealsList);
+router.post('/getdealslist', api.getDealsList);
 
 router.get('/getdealdocumentlist/:dealID', api.getDealDocumentList);
 

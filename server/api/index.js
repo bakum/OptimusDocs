@@ -23,7 +23,7 @@ exports.getOrganization = (req, response) => {
     // let dealsUser = req.app.locals.dusers;
     const api = req.app.locals.deals_api;
     const options = {
-        code: req.params.org_code || config.deals.orgCode,
+        code: req.params.org_code || req.query.org_code || config.deals.orgCode,
         confirmed: true
     }
     // if (('nologin' === dealsUser.deals_login) && ('nopass' === dealsUser.deals_pass)) {
@@ -48,7 +48,7 @@ exports.getOrganization = (req, response) => {
 exports.getDealsList = (req, response) => {
     // let dealsUser = req.app.locals.dusers;
     const api = req.app.locals.deals_api;
-    const id = req.params.org_code || config.deals.orgCode;
+    const id = req.params.org_code || req.query.org_code || config.deals.orgCode;
     // const api = new DealsAPI({
     //     dealsUrl: config.deals.dealsUrl,
     //     login: dealsUser.deals_login,
