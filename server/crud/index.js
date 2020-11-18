@@ -99,7 +99,7 @@ exports.changePassword = (req, res) => {
             if (pass_new !== pass_newrep){
                 return res.json({success: false, msg: "New passwords not identical"});
             }
-        //TODO realisation
+        //TODO --find and update new password
         }
 
         return res.json({success: false, msg: "Invalid password"});
