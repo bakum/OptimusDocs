@@ -65,9 +65,7 @@ try {
 
 let clientPath = path.join(__dirname, config.client.path);
 
-if (/^prod/i.test(yargs['client-environment'])) {
-    clientPath = path.join(clientPath, 'build', yargs['client-environment'], config.client.clientName);
-} else if (/^test/i.test(yargs['client-environment'])) {
+if ((/^prod/i.test(yargs['client-environment'])) || (/^test/i.test(yargs['client-environment']))) {
     clientPath = path.join(clientPath, 'build', yargs['client-environment'], config.client.clientName);
 }
 
