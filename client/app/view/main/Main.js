@@ -3,7 +3,7 @@
  * "mainView" property. That setting automatically applies the "viewport"
  * plugin causing this view to become the body element (i.e., the viewport).
  *
- * TODO - Replace this content of this view to suite the needs of your application.
+ *  - Replace this content of this view to suite the needs of your application.
  */
 Ext.define('OptimusDocs.view.main.Main', {
     extend: 'Ext.tab.Panel',

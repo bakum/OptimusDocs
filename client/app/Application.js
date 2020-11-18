@@ -16,7 +16,7 @@ Ext.define('OptimusDocs.Application', {
     },
 
     stores: [
-        // TODO: add global / shared stores here
+        // : add global / shared stores here
     ],
 
     launch: function () {
