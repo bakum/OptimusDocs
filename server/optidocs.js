@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 const express = require('express');
 const path = require('path');
 const fs = require('fs');
@@ -18,17 +20,6 @@ const ports = {
 const CryptoJS = require("crypto-js");
 const {DealsAPI} = require('@unitybase/deals-api');
 const accessLogStream = fs.createWriteStream(path.join(__dirname, '/log/access.log'), {flags: 'a'})
-// const models = require("./models");
-// //Sync Database
-// models.sequelize.sync({force : false}).then(function() {
-
-//     console.log('Nice! Database looks fine')
-
-// }).catch(function(err) {
-
-//     console.log(err, "Something went wrong with the Database Update!")
-
-// });
 
 const yargs = require('yargs')
     .option('client-path', {
@@ -124,8 +115,10 @@ router.get('/getdealslist', api.getDealsList);
 router.post('/getdealslist', api.getDealsList);
 
 router.get('/getdealdocumentlist/:dealID', api.getDealDocumentList);
+router.post('/getdealdocumentlist', api.getDealDocumentList);
 
 router.get('/getdocumentinfo/:id', api.getDocumentInfo);
+router.post('/getdocumentinfo', api.getDocumentInfo);
 
 router.get('/getdocument/:id/:dwn', api.getDocument);
 router.get('/getdocument/:id', api.getDocument);

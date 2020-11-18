@@ -84,14 +84,16 @@ Ext.define('OptimusDocs.store.Users', {
         type: 'rest',
         url: '/crud/users',
         appendId: true,
-        idParam: '_id',
+        // idParam: '_id',
         reader: {
             type: 'json',
+            idProperty: '_id',
             rootProperty: 'items'
         },
         writer: {
             type: 'json',
             encode: true,
+            idProperty: '_id',
             rootProperty: 'items'
         }
     },

@@ -63,11 +63,13 @@ Ext.define('OptimusDocs.store.Organizations', {
         appendId: true,
         reader: {
             type: 'json',
+            idProperty: '_id',
             rootProperty: 'items'
         },
         writer: {
             type: 'json',
             encode: true,
+            idProperty: '_id',
             rootProperty: 'items'
         }
     },

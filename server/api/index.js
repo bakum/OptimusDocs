@@ -75,7 +75,7 @@ exports.getDealsList = (req, response) => {
 };
 
 exports.getDealDocumentList = (req, response) => {
-    const dealID = req.params.dealID;
+    const dealID = req.params.dealID || req.query.dealID;
     // let dealsUser = req.app.locals.dusers;
     const api = req.app.locals.deals_api;
     // const api = new DealsAPI({
@@ -92,7 +92,7 @@ exports.getDealDocumentList = (req, response) => {
 };
 
 exports.getDocumentInfo = (req, response) => {
-    const ID = req.params.id;
+    const ID = req.params.id || req.query.id;
     // let dealsUser = req.app.locals.dusers;
     const api = req.app.locals.deals_api;
     // const api = new DealsAPI({
