@@ -101,17 +101,18 @@ Ext.define('OptimusDocs.view.main.Main', {
         items: [{
             xtype: 'mainlistorganizations'
         }]
-    } /* {
+    }, /*{
         title: 'Groups',
         iconCls: 'fa-users',
         bind: {
             html: '{loremIpsum}'
         }
-    }, {
-        title: 'Settings',
+    },*/ {
+        title: 'Сервис',
         iconCls: 'fa-cog',
         bind: {
             html: '{loremIpsum}'
-        } 
-    }*/]
+        }
+    }
+    ]
 });

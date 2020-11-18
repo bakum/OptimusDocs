@@ -17,6 +17,7 @@ const ports = {
     http: config.direct.portHttp,
     https: config.direct.portHttps
 };
+const favicon = require('serve-favicon');
 const CryptoJS = require("crypto-js");
 const {DealsAPI} = require('@unitybase/deals-api');
 const accessLogStream = fs.createWriteStream(path.join(__dirname, '/log/access.log'), {flags: 'a'})
@@ -74,6 +75,7 @@ app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, config.direct.classPath)));
 app.use(express.static(clientPath));
 app.use(logger('combined', {stream: accessLogStream}));
+app.use(favicon(path.join(__dirname,'images','favicon.ico')));
 
 console.log(`Client app has loaded from ${clientPath}`);
 // router.use((req, res, next) => {
