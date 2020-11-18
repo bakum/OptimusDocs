@@ -19,7 +19,7 @@ Ext.define('OptimusDocs.view.login.Login', {
         items: [{
             xtype: 'textfield',
             name: 'username',
-            fieldLabel: 'Логин:',
+            fieldLabel: 'Логин*:',
             enableKeyEvents:true,
             emptyText: 'login',
             allowBlank: false,
@@ -28,7 +28,7 @@ Ext.define('OptimusDocs.view.login.Login', {
             xtype: 'textfield',
             name: 'password',
             inputType: 'password',
-            fieldLabel: 'Пароль:',
+            fieldLabel: 'Пароль*:',
             enableKeyEvents:true,
             emptyText: 'password',
             allowBlank: false,

@@ -140,6 +140,8 @@ routerCrud.put('/users/:id', crud.putUsers);
 routerCrud.get('/organizations', crud.getOrganizations);
 routerCrud.put('/organizations/:id', crud.putOrganizations);
 
+routerCrud.post('/changepass', crud.changePassword);
+
 // REGISTER OUR ROUTES -------------------------------
 // all of our routes will be prefixed with /crud
 app.use(config.direct.crudUrl, routerCrud);

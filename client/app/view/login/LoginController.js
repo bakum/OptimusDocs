@@ -22,6 +22,7 @@ Ext.define('OptimusDocs.view.login.LoginController', {
                      });
                 },
                 failure: function(form, action) {
+                    form.reset();
                     Ext.Msg.alert('Failed', action.result.msg);
                 }
             });

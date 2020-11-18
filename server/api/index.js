@@ -40,7 +40,7 @@ exports.getOrganization = (req, response) => {
         response.json(res);
     }).catch(err => {
         console.log(err.data);
-        response.json(err);
+        response.status(500).json(err);
     });
     // }
 };
@@ -69,7 +69,7 @@ exports.getDealsList = (req, response) => {
         response.json(res);
     }).catch(err => {
         console.log(err.data);
-        response.json(err);
+        response.status(500).json(err);
     });
 
 };
@@ -87,7 +87,7 @@ exports.getDealDocumentList = (req, response) => {
         response.json(res);
     }).catch(err => {
         console.log(err.data);
-        response.json(err);
+        response.status(500).json(err);
     })
 };
 
@@ -104,7 +104,7 @@ exports.getDocumentInfo = (req, response) => {
         response.json(res);
     }).catch(err => {
         console.log(err.data);
-        response.json(err);
+        response.status(500).json(err);
     })
 };
 
@@ -128,7 +128,7 @@ exports.getDocument = (req, response) => {
         }
     }).catch(err => {
         console.log(err.data);
-        response.json(err);
+        response.status(500).json(err);
     })
 }
 
@@ -152,7 +152,7 @@ exports.addNewDeal = (req, response) => {
         response.json(res);
     }).catch(err => {
         console.log(err.data);
-        response.json(err);
+        response.status(500).json(err);
     })
 }
 
@@ -171,7 +171,7 @@ exports.credentials = (req, res) => {
             res.json({success: false, msg: "Login failed"});
         }
         else {
-            console.log('Found admin user -> ' + item.name);
+            console.log(`Found admin user -> ${item.name}`);
             if ((item.name === req.body.username) && (item.pass === req.body.password)) {
                 res.json({success: true});
             } else {

@@ -38,10 +38,14 @@ Ext.define('OptimusDocs.view.main.MainController', {
                 xtype: 'form',
                 reference: 'form',
                 items: [{
+                    xtype: 'hiddenfield',
+                    name: 'id',
+                    value: record._id
+                },{
                     xtype: 'textfield',
                     name: 'password_old',
                     inputType: 'password',
-                    fieldLabel: 'Старый пароль:',
+                    fieldLabel: 'Старый пароль*:',
                     enableKeyEvents:true,
                     emptyText: 'old password',
                     allowBlank: false,
@@ -50,7 +54,7 @@ Ext.define('OptimusDocs.view.main.MainController', {
                     xtype: 'textfield',
                     name: 'password_new',
                     inputType: 'password',
-                    fieldLabel: 'Новый пароль:',
+                    fieldLabel: 'Новый пароль*:',
                     enableKeyEvents:true,
                     emptyText: 'new password',
                     allowBlank: false,
@@ -61,12 +65,12 @@ Ext.define('OptimusDocs.view.main.MainController', {
                     xtype: 'textfield',
                     name: 'password_new_rep',
                     inputType: 'password',
-                    fieldLabel: 'Новый пароль (ещё раз):',
+                    fieldLabel: 'Новый пароль (ещё раз)*:',
                     enableKeyEvents:true,
                     emptyText: 'new password',
                     allowBlank: false,
                     listeners: {
-                        // specialkey: 'onKey'
+                        specialkey: 'onKey'
                     }
                 },
                     {
@@ -90,7 +94,34 @@ Ext.define('OptimusDocs.view.main.MainController', {
 
     onChangePassword: function(me){
         var form = me.up('window').down('form').getForm();
-        // var win = this;
+        var win = Ext.ComponentQuery.query('changepassdlg')[0];
+        if (form.isValid()) {
+            var formValues = form.getValues(),
+                passoldField = form.findField('password_old'),
+                passnewField = form.findField('password_new'),
+                passnewrepField = form.findField('password_new_rep');
+            passoldField.setValue(CryptoJS.SHA256(formValues.password_old).toString(CryptoJS.enc.Base64));
+            passnewField.setValue(CryptoJS.SHA256(formValues.password_new).toString(CryptoJS.enc.Base64));
+            passnewrepField.setValue(CryptoJS.SHA256(formValues.password_new_rep).toString(CryptoJS.enc.Base64));
+            form.submit({
+                url: '/crud/changepass',  // your url
+                params: null, // needed for additional param
+                submitEmptyText: false,  // don't post empty text in fields
+                success: function(form, action) {
+                    // localStorage.setItem("OptimusDocLoggedIn",true);
+                    // win.getView().destroy();
+                    win.hide();
+                    // Add the main view to the viewport
+                    // Ext.create({
+                    //     xtype: 'app-main'
+                    // });
+                },
+                failure: function(form, action) {
+                    form.reset();
+                    Ext.Msg.alert('Failed', action.result.msg);
+                }
+            });
+        }
     },
 
     onLogoutClick: function () {
@@ -104,5 +135,13 @@ Ext.define('OptimusDocs.view.main.MainController', {
         Ext.create({
             xtype: 'login'
         });
+    },
+
+    onKey: function (field, el) {
+        if (el.getKey() == Ext.EventObject.ENTER) //ENTER key performs Login
+            var myBtn = Ext.ComponentQuery.query('#login-button')[0];
+        // console.log(myBtn);
+        myBtn.fireEvent('click', myBtn);
+        // Ext.getCmp('#login-button').fireEvent('click');
     }
 });
