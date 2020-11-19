@@ -124,6 +124,7 @@ router.get('/getdocument/:id/:dwn', api.getDocument);
 router.get('/getdocument/:id', api.getDocument);
 
 router.post('/addnewdeal', api.addNewDeal);
+router.post('/addnewdealinvite', api.addNewDealAndInvite);
 
 
 router.route('/checkcredentials').post(api.credentials);

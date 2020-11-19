@@ -156,6 +156,37 @@ exports.addNewDeal = (req, response) => {
     })
 }
 
+exports.addNewDealAndInvite = (req, response) => {
+    const options = {
+        name: req.body.name || req.query.name || 'New name',
+        description: req.body.desc || req.query.desc || (new Date()).toLocaleString(),
+        onlyAuthor: req.body.onlyAuthor || req.query.onlyAuthor || 'true'
+    }
+    const api = req.app.locals.deals_api;
+    api.addNewDeal(options).then(res => {
+        const dealID = res.ID;
+        return api.getOrganization({code: req.body.orgINN, confirmed: true}).then(res => {
+            let option_for_invite = {
+                dealID: dealID,
+                orgID: res.ID
+            }
+            return api.invitePartner(option_for_invite)
+        }).catch(e => {
+            let option_for_invite = {
+                dealID: dealID,
+                eMail: req.body.eMail,
+                invite: req.body.invite
+            }
+            return api.invitePartner(option_for_invite)
+        })
+    }).then(res => {
+        response.json(res);
+    }).catch(err => {
+        console.log(err.data);
+        response.status(500).json(err);
+    });
+}
+
 exports.credentials = (req, res) => {
     //console.log(req.body.username);
     //console.log(req.body.password);
