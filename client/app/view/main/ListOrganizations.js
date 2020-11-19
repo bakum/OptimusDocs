@@ -73,7 +73,17 @@ Ext.define('OptimusDocs.view.main.ListOrganizations', {
             align: 'center',
             dataIndex: 'org_name',
             flex: 1,
-            editor: {xtype: 'textfield', allowBlank: false}
+            editor: {xtype: 'textfield', allowBlank: false},
+            renderer: function(value, record, dataIndex, cell) {
+                if (dataIndex.data.is_main === true) {
+                    record.style = 'font-weight: bold;'
+                    // record.setStyle('font-weight: bold;')
+                } else {
+                    // record.setStyle('font-weight: normal;')
+                    record.style = 'font-weight: normal;'
+                }
+                return value;
+            }
         },
         {
             text: 'ИНН',
@@ -88,7 +98,19 @@ Ext.define('OptimusDocs.view.main.ListOrganizations', {
             dataIndex: 'is_main',
             flex: 1,
             trueText: 'Да',
-            falseText: 'Нет'
+            falseText: 'Нет',
+            renderer: function(value, record, dataIndex, cell) {
+                if (dataIndex.data.is_main === true) {
+                    record.style = 'font-weight: bold;';
+                    value = 'Да';
+                    // record.setStyle('font-weight: bold;')
+                } else {
+                    // record.setStyle('font-weight: normal;')
+                    record.style = 'font-weight: normal;'
+                    value = 'Нет';
+                }
+                return value;
+            }
             // editor: {xtype: 'checkbox', allowBlank: false}
         }
     ],

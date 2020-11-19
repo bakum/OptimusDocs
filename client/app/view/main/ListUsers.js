@@ -92,7 +92,17 @@ Ext.define('OptimusDocs.view.main.ListUsers', {
             text: 'Deals (login)',
             dataIndex: 'deals_login',
             flex: 1,
-            editor: {xtype: 'textfield', allowBlank: false}
+            editor: {xtype: 'textfield', allowBlank: false},
+            renderer: function(value, record, dataIndex, cell) {
+                if (dataIndex.data.is_admin === true) {
+                    record.style = 'font-weight: bold;'
+                    // record.setStyle('font-weight: bold;')
+                } else {
+                    // record.setStyle('font-weight: normal;')
+                    record.style = 'font-weight: normal;'
+                }
+                return value;
+            }
         },
         {
             text: 'Deals (password)',
@@ -107,7 +117,19 @@ Ext.define('OptimusDocs.view.main.ListUsers', {
             xtype: 'booleancolumn',
             flex: 1,
             trueText: 'Да',
-            falseText: 'Нет'
+            falseText: 'Нет',
+            renderer: function(value, record, dataIndex, cell) {
+                if (dataIndex.data.is_admin === true) {
+                    record.style = 'font-weight: bold;';
+                    value = 'Да';
+                    // record.setStyle('font-weight: bold;')
+                } else {
+                    // record.setStyle('font-weight: normal;')
+                    record.style = 'font-weight: normal;'
+                    value = 'Нет';
+                }
+                return value;
+            }
             // editor: {xtype: 'checkbox', allowBlank: false}
         }
     ],

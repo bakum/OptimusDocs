@@ -29,7 +29,7 @@ exports.putUsers = (req, res) => {
         delete item.id;
         let db = req.app.locals.db;
         const filter = {'_id': ObjectID(id)};
-        const options = {upsert: true};
+        const options = {upsert: true,returnOriginal: false};
         const updateDoc = {
             $set: item
         };
