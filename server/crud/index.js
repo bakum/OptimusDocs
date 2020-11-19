@@ -97,13 +97,20 @@ exports.changePassword = (req, res) => {
         }
 
         if (item.pass === pass_old) {
-            if (pass_new !== pass_newrep){
+            if (pass_new !== pass_newrep) {
                 return res.json({success: false, msg: "New passwords not identical"});
-            }
-        //TODO --find and update new password
-        }
+            } else {
 
-        return res.json({success: false, msg: "Invalid password"});
+                const options = {returnOriginal: false};
+                db.collection('users').findOneAndUpdate(user, {$set: {pass: pass_new}}, options).then((obj) => {
+                    return res.json({success: true, msg: "All done!"});
+                }).catch((err) => {
+                    return res.json(err);
+                })
+            }
+        } else {
+            return res.json({success: false, msg: "Invalid password"});
+        }
     })
 
 }

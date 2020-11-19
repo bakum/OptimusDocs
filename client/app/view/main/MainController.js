@@ -9,7 +9,8 @@ Ext.define('OptimusDocs.view.main.MainController', {
 
     requires: [
         'Ext.window.Window',
-        'Ext.form.Panel'
+        'Ext.form.Panel',
+        'Ext.window.Toast'
     ],
 
     alias: 'controller.main',
@@ -81,7 +82,7 @@ Ext.define('OptimusDocs.view.main.MainController', {
                 buttons: [{
                     text: 'Сменить',
                     formBind: true,
-                    itemId: 'login-button',
+                    itemId: 'changepass-button',
                     listeners: {
                         click: 'onChangePassword'
                     }
@@ -110,6 +111,12 @@ Ext.define('OptimusDocs.view.main.MainController', {
                 success: function(form, action) {
                     // localStorage.setItem("OptimusDocLoggedIn",true);
                     // win.getView().destroy();
+                    Ext.toast({
+                        // title: name,
+                        html: 'Пароль обновлен',
+                        align: 't',
+                        bodyPadding: 10
+                    });
                     win.hide();
                     // Add the main view to the viewport
                     // Ext.create({
@@ -139,7 +146,7 @@ Ext.define('OptimusDocs.view.main.MainController', {
 
     onKey: function (field, el) {
         if (el.getKey() == Ext.EventObject.ENTER) //ENTER key performs Login
-            var myBtn = Ext.ComponentQuery.query('#login-button')[0];
+            var myBtn = Ext.ComponentQuery.query('#changepass-button')[0];
         // console.log(myBtn);
         myBtn.fireEvent('click', myBtn);
         // Ext.getCmp('#login-button').fireEvent('click');

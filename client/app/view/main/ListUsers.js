@@ -79,8 +79,8 @@ Ext.define('OptimusDocs.view.main.ListUsers', {
         },
         {
             text: 'Логин',
-            dataIndex: 'name',
-            editor: {xtype: 'textfield', allowBlank: false}
+            dataIndex: 'name'
+            // editor: {xtype: 'textfield', allowBlank: false}
         },
         {
             text: 'Email',
@@ -97,6 +97,7 @@ Ext.define('OptimusDocs.view.main.ListUsers', {
         {
             text: 'Deals (password)',
             dataIndex: 'deals_pass',
+            hidden : true,
             flex: 1,
             editor: {xtype: 'textfield', allowBlank: false}
         },
