@@ -115,7 +115,7 @@ Ext.define('OptimusDocs.store.Users', {
             } else {
                 verb = 'Отредактирована';
             };
-            var msg = Ext.String.format("{0} запись: {1}", verb, record.getId());
+            var msg = Ext.String.format("{0} запись: {1}", verb, record.data.name);
             Ext.toast({
                 // title: name,
                 html: msg,

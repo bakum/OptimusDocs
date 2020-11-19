@@ -36,7 +36,7 @@ Ext.define('OptimusDocs.Application', {
     },
 
     onAppUpdate: function () {
-        Ext.Msg.confirm('Application Update', 'This application has an update, reload?',
+        Ext.Msg.confirm('Application Update', 'Приложение было обновлено, перегрузить?',
             function (choice) {
                 if (choice === 'yes') {
                     window.location.reload();

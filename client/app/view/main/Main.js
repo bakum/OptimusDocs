@@ -15,7 +15,7 @@ Ext.define('OptimusDocs.view.main.Main', {
 
         'OptimusDocs.view.main.MainController',
         'OptimusDocs.view.main.MainModel',
-        'OptimusDocs.view.main.List',
+        // 'OptimusDocs.view.main.List',
         'OptimusDocs.view.main.ListUsers',
         'OptimusDocs.view.main.ListOrganizations'
     ],

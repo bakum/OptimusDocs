@@ -91,7 +91,7 @@ Ext.define('OptimusDocs.store.Organizations', {
             } else {
                 verb = 'Отредактирована';
             };
-            var msg = Ext.String.format("{0} запись: {1}", verb, record.getId());
+            var msg = Ext.String.format("{0} запись: {1}", verb, record.data.org_name);
             Ext.toast({
                 // title: name,
                 html: msg,
