@@ -25,12 +25,12 @@ Ext.define('OptimusDocs.view.main.MainController', {
         }
     },
 
-    onChangePass: function(grid, rowIndex, colIndex) {
+    onChangePass: function (grid, rowIndex, colIndex) {
         var record = grid.store.data.items[rowIndex].data;
         Ext.define('ChangePassDlg', {
             extend: 'Ext.window.Window',
             xtype: 'changepassdlg',
-            title: Ext.String.format("Cменить пароль для: {0}",record.name),
+            title: Ext.String.format("Cменить пароль для: {0}", record.name),
             bodyPadding: 10,
             closable: true,
             autoShow: true,
@@ -38,47 +38,94 @@ Ext.define('OptimusDocs.view.main.MainController', {
             items: {
                 xtype: 'form',
                 reference: 'form',
+                // labelWidth: 400,
                 items: [{
                     xtype: 'hiddenfield',
                     name: 'id',
                     value: record._id
-                },{
-                    xtype: 'textfield',
-                    name: 'password_old',
-                    inputType: 'password',
-                    fieldLabel: 'Старый пароль*:',
-                    enableKeyEvents:true,
-                    emptyText: 'old password',
-                    allowBlank: false,
-
                 }, {
-                    xtype: 'textfield',
-                    name: 'password_new',
-                    inputType: 'password',
-                    fieldLabel: 'Новый пароль*:',
-                    enableKeyEvents:true,
-                    emptyText: 'new password',
-                    allowBlank: false,
-                    listeners: {
-                        // specialkey: 'onKey'
-                    }
+                    xtype: 'fieldcontainer',
+                    layout: 'hbox',
+                    items: [{
+                        xtype: 'textfield',
+                        name: 'password_old',
+                        inputType: 'password',
+                        fieldLabel: 'Старый пароль*:',
+                        enableKeyEvents: true,
+                        labelStyle: 'width:165px; white-space: nowrap;',
+                        emptyText: 'old password',
+                        allowBlank: false
+                    }, {
+                        xtype: 'button',
+                        iconCls: 'fa fa-eye',
+                        tooltip: 'Показать пароль',
+                        handler: function (button) {
+                            var isShowPassword = this.iconCls === 'fa fa-eye';
+                            this.setTooltip(isShowPassword ? 'Скрыть пароль' : 'Показать пароль');
+                            this.setIconCls(isShowPassword ? 'fa fa-eye-slash' : 'fa fa-eye');
+                            this.prev().getEl().query('input', false)[0].set({'type': isShowPassword ? 'text' : 'password'})
+                        }
+                    }]
                 }, {
-                    xtype: 'textfield',
-                    name: 'password_new_rep',
-                    inputType: 'password',
-                    fieldLabel: 'Новый пароль (ещё раз)*:',
-                    enableKeyEvents:true,
-                    emptyText: 'new password',
-                    allowBlank: false,
-                    listeners: {
-                        specialkey: 'onKey'
-                    }
+                    xtype: 'fieldcontainer',
+                    layout: 'hbox',
+                    items: [
+                        {
+                            xtype: 'textfield',
+                            name: 'password_new',
+                            inputType: 'password',
+                            fieldLabel: 'Новый пароль*:',
+                            enableKeyEvents: true,
+                            emptyText: 'new password',
+                            labelStyle: 'width:165px; white-space: nowrap;',
+                            allowBlank: false,
+                            listeners: {
+                                // specialkey: 'onKey'
+                            }
+                        },
+                        {
+                            xtype: 'button',
+                            iconCls: 'fa fa-eye',
+                            tooltip: 'Показать пароль',
+                            handler: function (button) {
+                                var isShowPassword = this.iconCls === 'fa fa-eye';
+                                this.setTooltip(isShowPassword ? 'Скрыть пароль' : 'Показать пароль');
+                                this.setIconCls(isShowPassword ? 'fa fa-eye-slash' : 'fa fa-eye');
+                                this.prev().getEl().query('input', false)[0].set({'type': isShowPassword ? 'text' : 'password'})
+                            }
+                        }]
+                }, {
+                    xtype: 'fieldcontainer',
+                    layout: 'hbox',
+                    items: [{
+                        xtype: 'textfield',
+                        name: 'password_new_rep',
+                        inputType: 'password',
+                        fieldLabel: 'Новый пароль (ещё раз)*:',
+                        enableKeyEvents: true,
+                        emptyText: 'new password',
+                        labelStyle: 'width:165px; white-space: nowrap;',
+                        allowBlank: false,
+                        listeners: {
+                            specialkey: 'onKey'
+                        }
+                    }, {
+                        xtype: 'button',
+                        iconCls: 'fa fa-eye',
+                        tooltip: 'Показать пароль',
+                        handler: function (button) {
+                            var isShowPassword = this.iconCls === 'fa fa-eye';
+                            this.setTooltip(isShowPassword ? 'Скрыть пароль' : 'Показать пароль');
+                            this.setIconCls(isShowPassword ? 'fa fa-eye-slash' : 'fa fa-eye');
+                            this.prev().getEl().query('input', false)[0].set({'type': isShowPassword ? 'text' : 'password'})
+                        }
+                    }]
                 },
                     {
-                    xtype: 'displayfield',
-                    hideEmptyLabel: false,
-                    value: 'Введите старый пароль и дважды новый'
-                }],
+                        xtype: 'displayfield',
+                        hideEmptyLabel: false,
+                        value: 'Введите старый пароль и дважды новый'
+                    }],
                 buttons: [{
                     text: 'Сменить',
                     formBind: true,
@@ -93,7 +140,7 @@ Ext.define('OptimusDocs.view.main.MainController', {
         this.dialog.show();
     },
 
-    onChangePassword: function(me){
+    onChangePassword: function (me) {
         var form = me.up('window').down('form').getForm();
         var win = Ext.ComponentQuery.query('changepassdlg')[0];
         if (form.isValid()) {
@@ -108,7 +155,7 @@ Ext.define('OptimusDocs.view.main.MainController', {
                 url: '/crud/changepass',  // your url
                 params: null, // needed for additional param
                 submitEmptyText: false,  // don't post empty text in fields
-                success: function(form, action) {
+                success: function (form, action) {
                     // localStorage.setItem("OptimusDocLoggedIn",true);
                     // win.getView().destroy();
                     Ext.toast({
@@ -123,7 +170,7 @@ Ext.define('OptimusDocs.view.main.MainController', {
                     //     xtype: 'app-main'
                     // });
                 },
-                failure: function(form, action) {
+                failure: function (form, action) {
                     form.reset();
                     Ext.Msg.alert('Failed', action.result.msg);
                 }

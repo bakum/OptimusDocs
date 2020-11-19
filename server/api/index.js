@@ -169,7 +169,7 @@ exports.addNewDealAndInvite = (req, response) => {
             let option_for_invite = {
                 dealID: dealID,
                 orgID: res.ID
-            }
+            };
             return api.invitePartner(option_for_invite)
         }).catch(e => {
             let option_for_invite = {

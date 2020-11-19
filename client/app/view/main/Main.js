@@ -108,7 +108,7 @@ Ext.define('OptimusDocs.view.main.Main', {
             html: '{loremIpsum}'
         }
     },*/ {
-        title: 'Сервис',
+        title: 'Настройки сервиса',
         iconCls: 'fa-cog',
         bind: {
             html: '{loremIpsum}'
