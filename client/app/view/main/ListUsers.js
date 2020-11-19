@@ -95,11 +95,19 @@ Ext.define('OptimusDocs.view.main.ListUsers', {
             editor: {xtype: 'textfield', allowBlank: false},
             renderer: function(value, record, dataIndex, cell) {
                 if (dataIndex.data.is_admin === true) {
-                    record.style = 'font-weight: bold;'
+                    if (dataIndex.data.deals_login === 'nologin') {
+                        record.style = 'font-weight: bold; color: red;'
+                    } else {
+                        record.style = 'font-weight: bold; color: black;'
+                    }
                     // record.setStyle('font-weight: bold;')
                 } else {
                     // record.setStyle('font-weight: normal;')
-                    record.style = 'font-weight: normal;'
+                    if (dataIndex.data.deals_login === 'nologin') {
+                        record.style = 'font-weight: normal; color: red;'
+                    } else {
+                        record.style = 'font-weight: normal; color: black;'
+                    }
                 }
                 return value;
             }
@@ -109,7 +117,17 @@ Ext.define('OptimusDocs.view.main.ListUsers', {
             dataIndex: 'deals_pass',
             hidden : true,
             flex: 1,
-            editor: {xtype: 'textfield', allowBlank: false}
+            editor: {xtype: 'textfield', allowBlank: false},
+            renderer: function(value, record, dataIndex, cell) {
+                if (dataIndex.data.deals_pass === 'nopass') {
+                    record.style = 'color: red;';
+                    // record.setStyle('font-weight: bold;')
+                } else {
+                    // record.setStyle('font-weight: normal;')
+                    record.style = 'color: black;'
+                }
+                return value;
+            }
         },
         {
             text: 'Администратор',
