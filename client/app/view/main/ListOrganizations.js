@@ -89,7 +89,15 @@ Ext.define('OptimusDocs.view.main.ListOrganizations', {
             text: 'ИНН',
             align: 'center',
             dataIndex: 'inn',
-            editor: {xtype: 'textfield', allowBlank: false}
+            editor: {xtype: 'textfield', allowBlank: false},
+            renderer: function(value, record, dataIndex, cell) {
+                if (dataIndex.data.inn.length != 8) {
+                    record.style = 'color: red;';
+                } else {
+                    record.style = 'color: black;'
+                }
+                return value;
+            }
         },
         {
             text: 'Основная организация',
