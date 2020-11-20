@@ -12,15 +12,14 @@ const bodyParser = require('body-parser');
 const api = require('./api');
 const crud = require('./crud');
 const config = require('./utils/config');
-const MongoClient = require('mongodb').MongoClient;
+const mongoose = require("mongoose");
+const Users = require("./models/users.js");
 const ports = {
     http: config.direct.portHttp,
     https: config.direct.portHttps
 };
 const favicon = require('serve-favicon');
-const CryptoJS = require("crypto-js");
-const {DealsAPI} = require('@unitybase/deals-api');
-const accessLogStream = fs.createWriteStream(path.join(__dirname, '/log/access.log'), {flags: 'a'})
+const accessLogStream = fs.createWriteStream(path.join(__dirname, '/log/access.log'), {flags: 'a'});
 
 const yargs = require('yargs')
     .option('client-path', {
@@ -69,39 +68,17 @@ if ((/^prod/i.test(yargs['client-environment'])) || (/^test/i.test(yargs['client
     clientPath = path.join(clientPath, 'build', yargs['client-environment'], config.client.clientName);
 }
 
+require('./api/dealsapi').getApi().then((deals) => {
+    app.locals.deals_api = deals;
+});
+
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, config.direct.classPath)));
 app.use(express.static(clientPath));
 app.use(logger('combined', {stream: accessLogStream}));
-app.use(favicon(path.join(__dirname,'images','favicon.ico')));
+app.use(favicon(path.join(__dirname, 'images', 'favicon.ico')));
 
 console.log(`Client app has loaded from ${clientPath}`);
-// router.use((req, res, next) => {
-//     // do logging
-//     console.log(`Method: ${req.method}, url: ${req.originalUrl}`);
-//     next(); // make sure we go to the next routes and don't stop here
-// });
-router.use((req, res, next) => {
-    if ((config.direct.apiUrl === req.baseUrl) && ('/checkcredentials' !== req.url)){
-        if ((!req.app.locals.deals_api) && (req.app.locals.dusers)) {
-            let dealsUser = req.app.locals.dusers;
-            if (('nologin' === dealsUser.deals_login) || ('nopass' === dealsUser.deals_pass)) {
-                // res.local.noservice = true;
-                let err = new Error('Deals user not defined. Service not avaible');
-                err.status = 501;
-                next(err);
-            } else {
-                req.app.locals.deals_api = new DealsAPI({
-                    dealsUrl: config.deals.dealsUrl,
-                    login: dealsUser.deals_login,
-                    password: dealsUser.deals_pass
-                });
-                // res.local.noservice = false;
-            }
-        }
-    }
-    next();
-})
 
 //API Deals
 router.get('/', api.index);
@@ -147,75 +124,21 @@ routerCrud.post('/changepass', crud.changePassword);
 // all of our routes will be prefixed with /crud
 app.use(config.direct.crudUrl, routerCrud);
 
-// catch 404 and forward to error handler
-/*app.use(function (req, res, next) {
-    var err = new Error('Not Found');
-    err.status = 404;
-    next(err);
-});
-
-// error handler
-// no stacktraces leaked to user unless in development environment
-app.use(function (err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-        message: err.message,
-        error: (yargs['client-environment'] === 'development') ? err : {}
-    });
-});*/
-
-MongoClient.connect((yargs['client-environment'] === 'development') ? config.mongodb.url_dev : config.mongodb.url,
+mongoose.connect((yargs['client-environment'] === 'development') ? config.mongodb.url_dev : config.mongodb.url,
     {
-        useUnifiedTopology: true,  // установка опций
-        useNewUrlParser: true
-    },
-    (err, database) => {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+        useFindAndModify: false
+    }, function (err) {
         if (err) return console.log(err);
-        var mydb = database.db((yargs['client-environment'] === 'development') ? config.mongodb.db_name_dev : config.mongodb.db_name);
-        let adminuser = {name: config.mongodb.main_user, is_admin: true};
-        mydb.collection('users').findOne(adminuser, (err, item) => {
-            if (err) {
-                console.log('An error has occured while finding the record');
-            } else if (null === item) {
-                let pass = CryptoJS.SHA256(config.mongodb.default_password).toString(CryptoJS.enc.Base64);
-                let adminuser_new = {
-                    name: config.mongodb.main_user,
-                    pass: pass,
-                    email: config.mongodb.default_email,
-                    deals_login: 'nologin',
-                    deals_pass: 'nopass',
-                    is_admin: true
-                };
-                mydb.collection('users').insertOne(adminuser_new, (err, result) => {
-                    if (err) {
-                        //   res.send({ 'error': 'An error has occurred' });
-                        console.log('An error has occurred while inserting the record');
-                    } else {
-                        console.log('Created default admin user -> ' + result.ops[0].name);
-                        app.locals.dusers = result.ops[0];
-                    }
-                });
-                mydb.collection('organizations').insertOne({
-                    org_name : 'My Organization',
-                    inn : config.deals.orgCode,
-                    is_main : true
-                }, (err, result) => {
-                    if (err) {
-                        //   res.send({ 'error': 'An error has occurred' });
-                        console.log('An error has occurred while inserting the record');
-                    } else {
-                        console.log('Created default organization -> ' + result.ops[0].org_name);
-                        // app.locals.dusers = result.ops[0];
-                    }
-                });
+
+        Users.find().then(docs => {
+            if (docs.length === 0) {
+                Users.create({})
             }
-            else {
-                console.log('Found admin user -> ' + item.name);
-                app.locals.dusers = item;
-            }
+        }).catch(e => {
+            return console.log(e);
         });
-        console.log('Connected to -> ' + mydb.s.namespace.db);
-        app.locals.db = mydb;
 
         if ((httpServer) && (yargs['client-environment'] === 'development')) {
             httpServer.listen(ports.http, () => {
@@ -229,12 +152,6 @@ MongoClient.connect((yargs['client-environment'] === 'development') ? config.mon
             });
         }
     });
-
-
-//app.listen(ports.http, (err) => {
-//    console.log(`Non-Secure Server listening on port ${ports.http}`);
-//app.on('error', onError);
-//});
 
 
 function onError(error) {

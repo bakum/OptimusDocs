@@ -1,4 +1,6 @@
 const ObjectID = require('mongodb').ObjectID;
+const Users = require("../models/users.js");
+const Organizations = require("../models/organizations.js");
 
 exports.index = (req, res) => {
     res.json({message: 'hooray! welcome to our crud!'});
@@ -6,16 +8,20 @@ exports.index = (req, res) => {
 }
 
 exports.getUsers = (req, res) => {
-    let db = req.app.locals.db;
+    // let db = req.app.locals.db;
     const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
     const start = parseInt(req.query.start);// Make sure to parse the skip to number
 
-    db.collection('users').find().skip(start).limit(limit).toArray().then(docs => {
+    // db.collection('users').find().skip(start).limit(limit).toArray().then(docs => {
+    //     res.json({items: docs})
+    // }).catch(e => {
+    //     res.status(500).json(e)
+    // })
+    Users.find().skip(start).limit(limit).then(docs => {
         res.json({items: docs})
     }).catch(e => {
         res.status(500).json(e)
     })
-
     // res.json({message: 'hooray! welcome to our crud/users!'});
 }
 
@@ -29,11 +35,13 @@ exports.putUsers = (req, res) => {
         delete item.id;
         let db = req.app.locals.db;
         const filter = {'_id': ObjectID(id)};
-        const options = {upsert: true,returnOriginal: false};
+        const options = {upsert: true, returnOriginal: false};
         const updateDoc = {
             $set: item
         };
-        db.collection('users').updateOne(filter, updateDoc, options).then((obj) => {
+
+        Users.updateOne(filter, updateDoc, options).then((obj) => {
+        // db.collection('users').updateOne(filter, updateDoc, options).then((obj) => {
             // TODO --req.app.locals.dusers (res.app.locals.dusers)
             res.json(obj)
         }).catch((err) => {
@@ -44,12 +52,24 @@ exports.putUsers = (req, res) => {
 }
 
 exports.getOrganizations = (req, res) => {
-    let db = req.app.locals.db;
+    // let db = req.app.locals.db;
     const limit = parseInt(req.query.limit); // Make sure to parse the limit to number
     const start = parseInt(req.query.start);// Make sure to parse the skip to number
 
-    db.collection('organizations').find().skip(start).limit(limit).toArray().then(docs => {
-        res.json({items: docs})
+    // db.collection('organizations').find().skip(start).limit(limit).toArray().then(docs => {
+    //     res.json({items: docs})
+    // }).catch(e => {
+    //     res.status(500).json(e)
+    // })
+
+    Organizations.find().skip(start).limit(limit).then(docs => {
+        if (docs.length !== 0) {
+            res.json({items: docs})
+        } else {
+            Organizations.create({}, (err, doc) => {
+                res.json({items: doc})
+            })
+        }
     }).catch(e => {
         res.status(500).json(e)
     })
@@ -71,7 +91,8 @@ exports.putOrganizations = (req, res) => {
         const updateDoc = {
             $set: item
         };
-        db.collection('organizations').updateOne(filter, updateDoc, options).then((obj) => {
+        Organizations.updateOne(filter, updateDoc, options).then((obj) => {
+        // db.collection('organizations').updateOne(filter, updateDoc, options).then((obj) => {
             res.json(obj)
         }).catch((err) => {
             res.status(500).json(err);
@@ -87,7 +108,8 @@ exports.changePassword = (req, res) => {
         id = req.body.id,
         db = req.app.locals.db;
     let user = {_id: ObjectID(id)};
-    db.collection('users').findOne(user, (err, item) => {
+    Users.findOne(user, (err, item) => {
+    // db.collection('users').findOne(user, (err, item) => {
         if (err) {
             // console.log('An error has occured while finding the record');
             return res.json({success: false, msg: "An error has occured while finding the record"});
@@ -102,7 +124,8 @@ exports.changePassword = (req, res) => {
             } else {
 
                 const options = {returnOriginal: false};
-                db.collection('users').findOneAndUpdate(user, {$set: {pass: pass_new}}, options).then((obj) => {
+                Users.findOneAndUpdate(user, {$set: {pass: pass_new}}, options).then((obj) => {
+                // db.collection('users').findOneAndUpdate(user, {$set: {pass: pass_new}}, options).then((obj) => {
                     return res.json({success: true, msg: "All done!"});
                 }).catch((err) => {
                     return res.json(err);
