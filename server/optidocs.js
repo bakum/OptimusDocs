@@ -68,10 +68,6 @@ if ((/^prod/i.test(yargs['client-environment'])) || (/^test/i.test(yargs['client
     clientPath = path.join(clientPath, 'build', yargs['client-environment'], config.client.clientName);
 }
 
-require('./api/dealsapi').getApi().then((deals) => {
-    app.locals.deals_api = deals;
-});
-
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static(path.join(__dirname, config.direct.classPath)));
 app.use(express.static(clientPath));
@@ -136,8 +132,12 @@ mongoose.connect((yargs['client-environment'] === 'development') ? config.mongod
             if (docs.length === 0) {
                 Users.create({})
             }
-        }).catch(e => {
-            return console.log(e);
+        }).then(
+            require('./api/dealsapi').getApi().then((deals) => {
+                app.locals.deals_api = deals;
+            })
+        ).catch(e => {
+            return console.error(e);
         });
 
         if ((httpServer) && (yargs['client-environment'] === 'development')) {

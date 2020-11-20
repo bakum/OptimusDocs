@@ -41,8 +41,6 @@ exports.putUsers = (req, res) => {
         };
 
         Users.updateOne(filter, updateDoc, options).then((obj) => {
-        // db.collection('users').updateOne(filter, updateDoc, options).then((obj) => {
-            // TODO --req.app.locals.dusers (res.app.locals.dusers)
             res.json(obj)
         }).catch((err) => {
             res.status(500).json(err);

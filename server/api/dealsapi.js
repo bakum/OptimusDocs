@@ -8,10 +8,13 @@ const adminuser = {
 };
 
 exports.getApi = async () => {
+
     const item = await Users.findOne(adminuser).exec();
-    return  new DealsAPI({
+    const ap = await new DealsAPI({
         dealsUrl: config.deals.dealsUrl,
         login: item.deals_login,
         password: item.deals_pass
-    })
+    });
+    console.log('Star.Docs API has been loaded');
+    return ap;
 }

@@ -14,10 +14,12 @@ Ext.define('OptimusDocs.view.main.Main', {
         'Ext.window.MessageBox',
 
         'OptimusDocs.view.main.MainController',
-        'OptimusDocs.view.main.MainModel',
+        // 'OptimusDocs.view.main.MainModel',
         // 'OptimusDocs.view.main.List',
         'OptimusDocs.view.main.ListUsers',
-        'OptimusDocs.view.main.ListOrganizations'
+        'OptimusDocs.view.main.ListOrganizations',
+        'OptimusDocs.view.settings.Settings',
+        'OptimusDocs.view.settings.SettingsController'
     ],
 
     controller: 'main',
@@ -110,9 +112,12 @@ Ext.define('OptimusDocs.view.main.Main', {
     },*/ {
         title: 'Настройки сервиса',
         iconCls: 'fa-cog',
-        bind: {
-            html: '{loremIpsum}'
-        }
+        // bind: {
+        //     html: '{loremIpsum}'
+        // }
+        items: [{
+            xtype: 'settingsForm'
+        }]
     }
     ]
 });

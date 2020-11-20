@@ -43,68 +43,72 @@ Ext.define('OptimusDocs.view.settings.Settings', {
                         },
                     items: [{
                         fieldLabel: 'Id',
-                        name: 'Id',
+                        name: '_id',
                         readOnly: true,
-                        width: 55
+                        width: 155
                     },
                         {
-                            fieldLabel: 'First Name',
-                            flex: 1,
-                            name: 'firstName',
+                            fieldLabel: 'ИНН',
+                            width: 150,
+                            // flex: 1,
+                            name: 'inn',
                             margin: '0 0 0 5',
                             allowBlank: false
                         },
                         {
-                            name: 'middleName',
-                            width: 150,
+                            name: 'deals_user',
+                            width: 200,
                             margin: '0 0 0 5',
-                            fieldLabel: 'Middle Name:'
+                            fieldLabel: 'Deals login:'
                         },
                         {
-                            fieldLabel: 'Last Name',
+                            fieldLabel: 'Deals password',
                             flex: 1,
                             margin: '0 0 0 5',
-                            name: 'lastName'
-                        }]
+                            name: 'deals_pass'
+                        }
+                    ]
                 },
-                    {
-                        xtype: 'datefield',
-                        fieldLabel: 'Date of Birth',
-                        name: 'birthDate'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'Address',
-                        width: '100%',
-                        name: 'address1'
-                    },
+                    // {
+                    //     xtype: 'datefield',
+                    //     fieldLabel: 'Date of Birth',
+                    //     name: 'birthDate'
+                    // },
                     {
                         xtype: 'textfield',
-                        hideLabel: true,
-                        name: 'address2',
+                        fieldLabel: 'Deals URL',
                         width: '100%',
-                        fieldLabel: 'address2'
-
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'City',
-                        width: '100%',
-                        name: 'city'
-                    },
-                    {
-                        xtype: 'textfield',
-                        fieldLabel: 'state',
-                        width: '100%',
-                        name: 'state'
+                        name: 'deals_url'
                     }
+                    // ,
+                    // {
+                    //     xtype: 'textfield',
+                    //     hideLabel: true,
+                    //     name: 'address2',
+                    //     width: '100%',
+                    //     fieldLabel: 'address2'
+                    //
+                    // },
+                    // {
+                    //     xtype: 'textfield',
+                    //     fieldLabel: 'City',
+                    //     width: '100%',
+                    //     name: 'city'
+                    // },
+                    // {
+                    //     xtype: 'textfield',
+                    //     fieldLabel: 'state',
+                    //     width: '100%',
+                    //     name: 'state'
+                    // }
                 ],
-                buttons: [{
-                    text: 'Create',
-                    itemId: 'btnCreate',
-                    formBind: true,
-                    handler: 'onCreateClick'
-                },
+                buttons: [
+                //     {
+                //     text: 'Create',
+                //     itemId: 'btnCreate',
+                //     formBind: true,
+                //     handler: 'onCreateClick'
+                // },
                     {
                         text: 'Read',
                         itemId: 'btnLoad',
@@ -117,17 +121,17 @@ Ext.define('OptimusDocs.view.settings.Settings', {
                         formBind: true,
                         handler: 'onUpdateClick'
                     },
-                    {
-                        text: 'Delete',
-                        itemId: 'btnDelete',
-                        formBind: true,
-                        handler: 'onDeleteClick'
-                    },
-                    {
-                        text: 'Reset',
-                        itemId: 'btnReset',
-                        handler: 'onResetClick'
-                    },
+                    // {
+                    //     text: 'Delete',
+                    //     itemId: 'btnDelete',
+                    //     formBind: true,
+                    //     handler: 'onDeleteClick'
+                    // },
+                    // {
+                    //     text: 'Reset',
+                    //     itemId: 'btnReset',
+                    //     handler: 'onResetClick'
+                    // },
                     {
                         text: 'Clear',
                         itemId: 'btnClear',

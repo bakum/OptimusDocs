@@ -9,6 +9,7 @@ Ext.application({
     extend: 'OptimusDocs.Application',
 
     requires: [
+        // 'OptimusDocs.model.Organizations',
         'OptimusDocs.view.main.Main'
     ],
 

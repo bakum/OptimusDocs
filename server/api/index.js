@@ -9,7 +9,16 @@ exports.index = (req, res) => {
     // console.log(db);
 };
 
+/**
+ *
+ * @param {Object} options
+ * @param {String} options.code
+ * @param {Boolean} options.confirmed
+ * @returns {Promise.<{ID: Number}>}
+ */
 exports.getOrganization = (req, response) => {
+    if (!req.params.org_code && !req.query.org_code && !config.deals.orgCode) throw new Error('Invalid parameters');
+
     const api = req.app.locals.deals_api;
     const options = {
         code: req.params.org_code || req.query.org_code || config.deals.orgCode,
@@ -20,12 +29,22 @@ exports.getOrganization = (req, response) => {
         // console.log(res);
         response.json(res);
     }).catch(err => {
-        console.log(err.data);
+        console.error(err.data);
         response.status(400).json(err);
     });
 };
 
+/**
+ *
+ * @param {Object} options
+ * @param {Number} options.orgID
+ * @param {Date} options.dateFrom
+ * @param {Date} options.dateTo
+ * @param {Boolean} [options.appendArchive=false] Append deals from archive
+ * @returns {Promise.<Object[]>}
+ */
 exports.getDealsList = (req, response) => {
+    if (!req.params.org_code && !req.query.org_code && !config.deals.orgCode) throw new Error('Invalid parameters');
     const api = req.app.locals.deals_api;
     const id = req.params.org_code || req.query.org_code || config.deals.orgCode;
 
@@ -48,7 +67,14 @@ exports.getDealsList = (req, response) => {
 
 };
 
+/**
+ *
+ * @param {Object} options
+ * @param {Number} options.dealID
+ * @returns {Promise.<Object[]>}
+ */
 exports.getDealDocumentList = (req, response) => {
+    if (!req.params.dealID && !req.query.dealID) throw new Error('Invalid parameters');
     const dealID = req.params.dealID || req.query.dealID;
 
     const api = req.app.locals.deals_api;
@@ -61,6 +87,12 @@ exports.getDealDocumentList = (req, response) => {
     })
 };
 
+/**
+ *
+ * @param {Object} options
+ * @param {Number} options.ID
+ * @returns {Promise.<Object>}
+ */
 exports.getDocumentInfo = (req, response) => {
     const ID = req.params.id || req.query.id;
 
@@ -73,6 +105,13 @@ exports.getDocumentInfo = (req, response) => {
     })
 };
 
+/**
+ *
+ * @param {Object} options
+ * @param {Number} options.ID
+ * @param {String} options.resultType (possible values DOCUMENT, SIGNATURES, FULL)
+ * @returns {Promise.<ArrayBuffer>}
+ */
 exports.getDocument = (req, response) => {
     const ID = req.params.id;
     const dwn = req.params.dwn || 0;
@@ -92,6 +131,22 @@ exports.getDocument = (req, response) => {
     })
 }
 
+/**
+ *
+ * @param {Object} options
+ * @param {String} options.name Deal name
+ * @param {String} [options.description] Deal description
+ * @param {String} [options.num] Deal code
+ * @param {Boolean} [options.onlyAuthor=false] Only author can add documents
+ * @param {Boolean} [options.payForPartner=false] This organization pay for partner. This is only default value for insert new document
+ * @param {String} [options.accessType=GENERAL] Deal accessType Possible values ['GENERAL', 'LIMITED']
+ * @param {Boolean} [options.isDocConfirm=false]
+ * @param {String} [options.moderator] Login user that must be moderator
+ * @param {String} [options.accessUser] Login users who has access to deal. The parameter accessType must has value 'limited'
+ * @param {String} [options.accessGroup] Group names that has access to deal. The parameter accessType must has value 'limited'
+ * @param {String} [options.accessGroupFull] Group names that has access to the deal with its subgroups. The parameter accessType must has value 'limited'
+ * @returns {Promise}
+ */
 exports.addNewDeal = (req, response) => {
     const options = {
         name: req.body.name || req.query.name || 'New name',
@@ -107,6 +162,15 @@ exports.addNewDeal = (req, response) => {
     })
 }
 
+/**
+ *
+ * @param {Object} options
+ * @param {Number} [options.dealID]
+ * @param {Number} [options.orgID]
+ * @param {String} [options.publicGroup] Public group name
+ * @param {String} [options.eMail]
+ * @returns {Promise.<Object>}
+ */
 exports.addNewDealAndInvite = (req, response) => {
     const options = {
         name: req.body.name || req.query.name || 'New name',

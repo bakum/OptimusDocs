@@ -1,26 +1,23 @@
-Ext.define('OptimusDocs.store.Organizations', {
+Ext.define('OptimusDocs.store.Settings', {
     extend: 'Ext.data.Store',
 
     requires: [
-        'OptimusDocs.model.Organizations',
+        'OptimusDocs.model.Settings',
         'Ext.data.proxy.Rest',
         'Ext.window.Toast'
     ],
 
-    alias: 'store.organizations',
-    model: Ext.create('OptimusDocs.model.Organizations'),
+    alias: 'store.settings',
+    model: Ext.create('OptimusDocs.model.Settings'),
     autoLoad: true,
     autoSync: false,
     autoDestroy: true,
-    sorters: [{
-        property: 'org_name',
-        direction: 'ASC'
-    }],
 
     proxy: {
         type: 'rest',
-        url: '/crud/organizations',
+        url: '/crud/settings',
         appendId: true,
+        // idParam: '_id',
         reader: {
             type: 'json',
             idProperty: '_id',
@@ -51,7 +48,7 @@ Ext.define('OptimusDocs.store.Organizations', {
             } else {
                 verb = 'Отредактирована';
             };
-            var msg = Ext.String.format("{0} запись: {1}", verb, record.data.org_name);
+            var msg = Ext.String.format("{0} запись: {1}", verb, record.data.name);
             Ext.toast({
                 // title: name,
                 html: msg,

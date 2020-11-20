@@ -4,33 +4,42 @@ Ext.define('OptimusDocs.model.User', {
 
     fields: [
         {
-            name:'name',
-            useNull: false
+            name: '_id',
+            critical : true
         },
         {
-            name:'pass',
-            useNull: false
+            name:'name',
+            useNull: false,
+            critical : true
         },
+        // {
+        //     name:'pass',
+        //     useNull: false
+        // },
         {
             name:'email',
-            useNull: false
+            useNull: false,
+            critical : true
         },
         {
             name:'deals_login',
-            useNull: false
+            useNull: false,
+            critical : true
         },
         {
             name:'deals_pass',
-            useNull: false
+            useNull: false,
+            critical : true
         },
         {
             name: 'is_admin',
             useNull: false,
+            critical : true,
             type: 'boolean', defaultValue: true
         }
     ],
 
-    validations: [{
+    validators: [{
         type: 'length',
         field: 'name',
         max: 120
