@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const userSchema = mongoose.Schema({
     name: {type: String, required: true, max: 120},
     pass: {type: String, required: true, max: 100},
-    email:String,
+    email: String,
     deals_login: {type: String, required: true, max: 100},
     deals_pass: {type: String, required: true, max: 100},
     is_admin: Boolean,
