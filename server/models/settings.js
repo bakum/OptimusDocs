@@ -7,6 +7,15 @@ const settingsSchema = mongoose.Schema({
     organization: {type: Schema.ObjectId, ref: 'Organizations', required: true}
 });
 
+settingsSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+settingsSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Settings = mongoose.model('Settings', settingsSchema);
 
 module.exports = Settings;
