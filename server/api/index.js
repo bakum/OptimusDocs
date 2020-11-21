@@ -22,7 +22,7 @@ exports.getOrganization = (req, response) => {
     const api = req.app.locals.deals_api;
     const options = {
         code: req.params.org_code || req.query.org_code || config.deals.orgCode,
-        confirmed: true
+        confirmed: req.query.confirmed || true
     }
 
     api.getOrganization(options).then(res => {
