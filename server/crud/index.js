@@ -33,7 +33,7 @@ exports.putUsers = (req, res) => {
         let id = item._id;
         delete item._id;
         delete item.id;
-        let db = req.app.locals.db;
+        // let db = req.app.locals.db;
         const filter = {'_id': ObjectID(id)};
         const options = {upsert: true, returnOriginal: false};
         const updateDoc = {
@@ -83,7 +83,7 @@ exports.putOrganizations = (req, res) => {
         let id = item._id;
         delete item._id;
         delete item.id;
-        let db = req.app.locals.db;
+        // let db = req.app.locals.db;
         const filter = {'_id': ObjectID(id)};
         const options = {upsert: true};
         const updateDoc = {
@@ -103,8 +103,8 @@ exports.changePassword = (req, res) => {
     const pass_old = req.body.password_old,
         pass_new = req.body.password_new,
         pass_newrep = req.body.password_new_rep,
-        id = req.body.id,
-        db = req.app.locals.db;
+        id = req.body.id
+        // db = req.app.locals.db;
     let user = {_id: ObjectID(id)};
     Users.findOne(user, (err, item) => {
     // db.collection('users').findOne(user, (err, item) => {
