@@ -25,19 +25,19 @@ Ext.define('OptimusDocs.store.Users', {
         // idParam: '_id',
         reader: {
             type: 'json',
-            idProperty: '_id',
+            // idProperty: '_id',
             rootProperty: 'items'
         },
         writer: {
             type: 'json',
             encode: true,
-            idProperty: '_id',
+            // idProperty: '_id',
             rootProperty: 'items'
         }
     },
     listeners: {
         write: function (store, operation) {
-            var record = operation.getRecords()[0],
+            let record = operation.getRecords()[0],
                 name = Ext.String.capitalize(operation.action),
                 verb;
 
@@ -53,7 +53,7 @@ Ext.define('OptimusDocs.store.Users', {
             } else {
                 verb = 'Отредактирована';
             };
-            var msg = Ext.String.format("{0} запись: {1}", verb, record.data.name);
+            const msg = Ext.String.format("{0} запись: {1}", verb, record.getId());
             Ext.toast({
                 // title: name,
                 html: msg,

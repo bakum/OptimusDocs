@@ -18,6 +18,7 @@ exports.getUsers = (req, res) => {
     //     res.status(500).json(e)
     // })
     Users.find().skip(start).limit(limit).then(docs => {
+        // docs = docs.toJSON();
         res.json({items: docs})
     }).catch(e => {
         res.status(500).json(e)

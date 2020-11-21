@@ -4,6 +4,10 @@ Ext.define('OptimusDocs.model.Organizations', {
 
     fields: [
         {
+            name: 'id',
+            critical : true
+        },
+        {
             name: '_id',
             critical : true
         },

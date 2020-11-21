@@ -9,6 +9,15 @@ const orgSchema = mongoose.Schema({
     createdDate: {type: Date, default: Date.now}
 });
 
+orgSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+orgSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Organizations = mongoose.model('Organizations', orgSchema);
 
 module.exports = Organizations;

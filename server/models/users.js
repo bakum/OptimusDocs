@@ -14,6 +14,15 @@ const userSchema = mongoose.Schema({
     organization: {type: mongoose.Schema.Types.ObjectId, ref: 'Organizations'}
 });
 
+userSchema.virtual('id').get(function () {
+    return this._id.toHexString();
+});
+
+// Ensure virtual fields are serialised.
+userSchema.set('toJSON', {
+    virtuals: true
+});
+
 const Users = mongoose.model('Users', userSchema);
 
 module.exports = Users;
