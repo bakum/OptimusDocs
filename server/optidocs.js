@@ -14,6 +14,7 @@ const crud = require('./crud');
 const config = require('./utils/config');
 const mongoose = require("mongoose");
 const Users = require("./models/users.js");
+const fileUpload = require('express-fileupload');
 const ports = {
     http: config.direct.portHttp,
     https: config.direct.portHttps
@@ -73,6 +74,7 @@ app.use(express.static(path.join(__dirname, config.direct.classPath)));
 app.use(express.static(clientPath));
 app.use(logger('combined', {stream: accessLogStream}));
 app.use(favicon(path.join(__dirname, 'images', 'favicon.ico')));
+app.use(fileUpload());
 
 console.log(`Client app has loaded from ${clientPath}`);
 
@@ -99,6 +101,12 @@ router.get('/getdocument/:id', api.getDocument);
 router.post('/addnewdeal', api.addNewDeal);
 router.post('/addnewdealinvite', api.addNewDealAndInvite);
 
+router.post('/adddocument', api.AddOneDocument);
+router.post('/setcontent', api.setDocumentContent);
+router.post('/addsignature', api.addDocumentSignature);
+router.post('/adddocumentwithcontent', api.AddOneDocumentWithContent);
+
+router.post('/upload', api.FileUpload);
 
 router.route('/checkcredentials').post(api.credentials);
 

@@ -3,6 +3,7 @@ const config = require('../utils/config');
 
 const orgSchema = mongoose.Schema({
     org_name: {type: String, default: 'My Organization'},
+    org_www: {type: String, default: 'nowww'},
     inn: {type: String, default: config.deals.orgCode},
     is_main: {type: Boolean, default: true},
     createdDate: {type: Date, default: Date.now}
