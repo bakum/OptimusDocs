@@ -115,14 +115,14 @@ exports.getDocumentInfo = (req, response) => {
  */
 exports.getDocument = (req, response) => {
     const ID = req.params.id;
-    const dwn = req.params.dwn || 0;
+    const dwn = parseInt(req.params.dwn || 0);
     const api = req.app.locals.deals_api;
 
     api.getDocument({ID: ID, resultType: 'FULL'}).then(res => {
         const file = path.join(pathDownload, `doc${ID}.zip`);
         fs.writeFileSync(file, Buffer.from(res), {encoding: 'binary'});
         if (0 === dwn) {
-            response.json(res);
+            response.json({success:'ok'});
         } else {
             response.download(file);
         }
