@@ -14,7 +14,7 @@
   "author": "Bakum V.",
   "license": "MIT",
   "dependencies": {
-    "@unitybase/deals-api": "^1.0.9",
+    "@unitybase/deals-api": "^1.0.11",
     "crypto-js": "^4.0.0",
     "deepmerge": "^2.2.1",
     "express": "^4.17.1",

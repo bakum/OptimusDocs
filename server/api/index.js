@@ -24,7 +24,7 @@ exports.getOrganization = (req, response) => {
 
     let confirmed = req.query.confirmed || "true";
     if (confirmed) {
-        confirmed = JSON.parse(req.query.confirmed)
+        confirmed = JSON.parse(confirmed.toLowerCase())
     }
 
     const options = {
@@ -54,13 +54,15 @@ exports.getDealsList = (req, response) => {
     if (!req.params.org_code && !req.query.org_code && !config.deals.orgCode) throw new Error('Invalid parameters');
     const api = req.app.locals.deals_api;
     let confirmed = req.query.confirmed || "true";
-    if (confirmed) {
-        confirmed = JSON.parse(req.query.confirmed)
-    }
+    confirmed = confirmed ? JSON.parse(confirmed.toLowerCase()) : confirmed
+    // if (confirmed) {
+    //     confirmed = JSON.parse(req.query.confirmed.toLowerCase())
+    // }
     let appendArchive = req.query.appendArchive || "true";
-    if (appendArchive) {
-        appendArchive = JSON.parse(req.query.appendArchive)
-    }
+    appendArchive = appendArchive ? JSON.parse(appendArchive.toLowerCase()) : appendArchive
+    // if (appendArchive) {
+    //     appendArchive = JSON.parse(req.query.appendArchive.toLowerCase())
+    // }
     const options = {
         code: req.params.org_code || req.query.org_code || config.deals.orgCode,
         confirmed: confirmed
@@ -294,8 +296,8 @@ exports.AddOneDocumentWithContent = (req, response) => {
             let docID = res[0]
             let bufferData = fs.readFileSync(file)
             bufferData = bufferData.buffer.slice(bufferData.byteOffset, bufferData.byteOffset + bufferData.byteLength)
-            api.setDocumentContent({ID: docID, content: bufferData}).then(res => {
-                response.json(res)
+            api.setDocumentContent({ID: docID, content: bufferData}).then(resp => {
+                response.json(resp)
             })
         }).catch(e => {
             response.status(400).json(e)
