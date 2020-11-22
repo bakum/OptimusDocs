@@ -21,9 +21,15 @@ exports.getOrganization = (req, response) => {
     if (!req.params.org_code && !req.query.org_code && !config.deals.orgCode) throw new Error('Invalid parameters');
 
     const api = req.app.locals.deals_api;
+
+    let confirmed = req.query.confirmed || "true";
+    if (confirmed) {
+        confirmed = JSON.parse(req.query.confirmed)
+    }
+
     const options = {
         code: req.params.org_code || req.query.org_code || config.deals.orgCode,
-        confirmed: req.query.confirmed || true
+        confirmed: confirmed
     }
 
     api.getOrganization(options).then(res => {
@@ -47,9 +53,20 @@ exports.getOrganization = (req, response) => {
 exports.getDealsList = (req, response) => {
     if (!req.params.org_code && !req.query.org_code && !config.deals.orgCode) throw new Error('Invalid parameters');
     const api = req.app.locals.deals_api;
-    const id = req.params.org_code || req.query.org_code || config.deals.orgCode;
+    let confirmed = req.query.confirmed || "true";
+    if (confirmed) {
+        confirmed = JSON.parse(req.query.confirmed)
+    }
+    let appendArchive = req.query.appendArchive || "true";
+    if (appendArchive) {
+        appendArchive = JSON.parse(req.query.appendArchive)
+    }
+    const options = {
+        code: req.params.org_code || req.query.org_code || config.deals.orgCode,
+        confirmed: confirmed
+    }
 
-    api.getOrganization({code: id, confirmed: true}).then(res => {
+    api.getOrganization(options).then(res => {
 
         let dateFrom = new Date();
         dateFrom.setFullYear(dateFrom.getFullYear() - 1);
@@ -57,7 +74,7 @@ exports.getDealsList = (req, response) => {
             orgID: res.ID,
             dateFrom: dateFrom,
             dateTo: new Date(),
-            appendArchive: true
+            appendArchive: appendArchive
         })
     }).then(res => {
         response.json(res);
